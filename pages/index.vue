@@ -1,73 +1,62 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        botFB
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <form @submit.prevent="save">
+      <div class="form-group">
+        <label for="cookie">Cookie</label>
+        <input id="cookie" v-model="sendData.cookie" type="text" class="form-control" placeholder="Nhập cookie">
       </div>
-    </div>
+      <div class="form-group">
+        <label for="frequency">Bài viết/phút</label>
+        <select id="frequency" class="form-control">
+          <option value="">
+            - Chọn số lượng bài viết -
+          </option>
+          <option value="1">
+            1 bài / 10 phút
+          </option>
+          <option value="2">
+            2 bài / 10 phút
+          </option>
+          <option value="3">
+            3 bài / 10 phút
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success">
+        Lưu
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      sendData: {
+        cookie: '',
+        frequency: 2
+      }
+    }
+  },
+  methods: {
+    save () {
+      this.$axios.post('/api/bot/new', this.sendData).then((response) => {
+        if (response.data.status === 'success') {
+          alert('Lưu thành công')
+        } else {
+          alert(response.data.message)
+        }
+      }).catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(e)
+        alert('Lỗi khi lưu')
+      })
+    }
+  }
+}
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
