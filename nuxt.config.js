@@ -59,7 +59,7 @@ export default {
   axios: {
     // proxyHeaders: true,
     // proxy: true,
-    baseURL: 'http://localhost/botfb'
+    baseURL: 'https://codedao.jas.plus'
   },
   /*
   ** Build configuration
